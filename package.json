@@ -8,6 +8,7 @@
     "test": "npm test"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.17.1",
     "nodemailer": "^6.4.6"
   },
