@@ -11,11 +11,9 @@ app.post('/send-email', async (req, res) => {
     const { name, website, email, message } = req.body;
 
     if (!email || !message || !name) {
-        return res
-            .status(400)
-            .send({
-                error: 'Please provide all required fields: name, email, and message.',
-            });
+        return res.status(400).send({
+            error: 'Please provide all required fields: name, email, and message.',
+        });
     }
 
     try {
@@ -28,8 +26,8 @@ app.post('/send-email', async (req, res) => {
         });
 
         const mailOptions = {
-            from: process.env.EMAIL_USER, // Sender's email
-            to: process.env.EMAIL_USER, // Recipient's email
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
             subject: 'Message from Portfiolio Website',
             text: `Name: ${name}\nWebsite: ${website}\nEmail: ${email}\nMessage: ${message}`,
         };
