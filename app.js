@@ -8,26 +8,30 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/send-email', async (req, res) => {
-    const { to, subject, text } = req.body;
+    const { name, website, email, message } = req.body;
 
-    if (!to || !subject || !text) {
-        return res.status(400).send({ error: 'Please provide all required fields: to, subject, and text.' });
+    if (!email || !message || !name) {
+        return res
+            .status(400)
+            .send({
+                error: 'Please provide all required fields: name, email, and message.',
+            });
     }
 
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS, 
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
             },
         });
 
         const mailOptions = {
-            from: 'your-email@gmail.com', // Sender's email
-            to, // Recipient's email
-            subject, // Email subject
-            text, // Email body text
+            from: process.env.EMAIL_USER, // Sender's email
+            to: process.env.EMAIL_USER, // Recipient's email
+            subject: 'Message from Portfiolio Website',
+            text: `Name: ${name}\nWebsite: ${website}\nEmail: ${email}\nMessage: ${message}`,
         };
 
         await transporter.sendMail(mailOptions);
@@ -35,7 +39,9 @@ app.post('/send-email', async (req, res) => {
         res.status(200).send({ message: 'Email sent successfully!' });
     } catch (error) {
         console.error('Error sending email:', error);
-        res.status(500).send({ error: 'Failed to send email. Please try again later.' });
+        res.status(500).send({
+            error: 'Failed to send email. Please try again later.',
+        });
     }
 });
 
