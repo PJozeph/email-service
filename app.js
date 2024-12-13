@@ -1,9 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const cors = require('cors'); // Import cors
+
 require('dotenv').config();
 
 const app = express();
+
+const corsOptions = {
+    origin: 'https://jozsefpallagi.com', // Replace with the URL of your frontend
+};
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
